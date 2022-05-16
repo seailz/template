@@ -15,46 +15,63 @@
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
-    <url>www.seailzcom</url>
+    <url>www.seailz.com</url>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.1</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.3.0</version>
+                <groupId>com.github.wvengen</groupId>
+                <artifactId>proguard-maven-plugin</artifactId>
                 <executions>
                     <execution>
                         <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
+                        <goals><goal>proguard</goal></goals>
                         <configuration>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <injar>${project.build.finalName}-jar-with-dependencies.jar</injar>
+                            <outjar>${project.build.finalName}-small.jar</outjar>
+                            <proguardVersion>7.1.0</proguardVersion>
+                            <options>
+                                <option>-allowaccessmodification</option>
+                                <option>-dontoptimize</option>
+                                <option>-dontshrink</option>
+                                <option>-dontnote</option>
+                                <option>-dontwarn</option> <!-- added option to ignore com.sun missing classes -->
+                                <option>-keepattributes Signature</option>
+                            </options>
+                            <libs>
+                                <lib>${java.home}/lib/rt.jar</lib>
+                            </libs>
+                            <dependencies>
+                                <dependency>
+                                    <groupId>com.guardsquare</groupId>
+                                    <artifactId>proguard-base</artifactId>
+                                    <version>7.1.0</version>
+                                    <scope>runtime</scope>
+                                </dependency>
+                                <dependency>
+                                    <groupId>com.guardsquare</groupId>
+                                    <artifactId>proguard-core</artifactId>
+                                    <version>7.1.0</version>
+                                    <scope>runtime</scope>
+                                </dependency>
+                            </dependencies>
                         </configuration>
-
                     </execution>
                 </executions>
-                <configuration>
-                    <relocations>
-                        <relocation>
-                            <pattern>games.negative.framework</pattern>
-                            <shadedPattern>com.seailz.spigotplugintemplate.core.framework</shadedPattern>
-                        </relocation>
-                    </relocations>
-                </configuration>
             </plugin>
         </plugins>
+        <pluginManagement>
+        <plugins>
+        <plugin>
+            <groupId>com.github.wvengen</groupId>
+            <artifactId>proguard-maven-plugin</artifactId>
+            <version>2.4.0</version>
+        </plugin>
+        </plugins>
+        </pluginManagement>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

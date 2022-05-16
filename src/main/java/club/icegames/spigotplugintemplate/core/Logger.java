@@ -1,6 +1,5 @@
-package com.seailz.spigotplugintemplate.core;
+package club.icegames.spigotplugintemplate.core;
 
-import com.seailz.spigotplugintemplate.SpigotPluginTemplate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
@@ -10,7 +9,7 @@ public class Logger {
      * Log something to the console
      *
      * @param level   The level of the logged message
-     * @param message What message to log
+     * @param message What messages to log
      */
     public static void log(LogLevel level, String message) {
         if (message == null) return;
@@ -30,7 +29,6 @@ public class Logger {
                 break;
             case DEBUG:
                 Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&e[SPIGOTPLUGIN] &8[&c&lDEBUG&r&8] &c" + message));
-                if (SpigotPluginTemplate.getInstance().isDebug())  SpigotPluginTemplate.getInstance().getDebugLog().add(message);
                 break;
             case OUTLINE:
                 Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&e[SPIGOTPLUGIN] &7" + message));

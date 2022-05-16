@@ -1,4 +1,4 @@
-package com.seailz.spigotplugintemplate.core;
+package club.icegames.spigotplugintemplate.core;
 
 import games.negative.framework.message.Message;
 import lombok.Getter;
